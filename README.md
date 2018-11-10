@@ -1,6 +1,6 @@
 # vega
 
-[![Build Status](https://travis-ci.org/endoli/vega.rs.svg?branch=master)](https://travis-ci.org/endoli/vega.rs)
+[![Build Status](https://travis-ci.org/vizirs/vega.rs.svg?branch=master)](https://travis-ci.org/vizirs/vega.rs)
 [![](http://meritbadge.herokuapp.com/vega)](https://crates.io/crates/vega)
 
 Licensed under the BSD 3-clause license.

@@ -1,0 +1,16 @@
+[package]
+name = "vega"
+version = "0.0.1"
+license = "BSD-3-Clause"
+authors = ["Bruce Mitchener <bruce.mitchener@gmail.com>"]
+readme = "README.md"
+description = "Generated code for using the Vega schema from Rust."
+keywords = ["vega", "charts", "graphs", "visualization"]
+documentation = "https://docs.rs/vega/"
+homepage = "https://github.com/endoli/vega.rs"
+repository = "https://github.com/endoli/vega.rs"
+
+[dependencies]
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"

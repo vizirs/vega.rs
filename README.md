@@ -1,7 +1,7 @@
 # vega
 
 [![Build Status](https://github.com/vizirs/vega.rs/actions/workflows/main.yml/badge.svg)](https://github.com/vizirs/vega.rs/actions/workflows/main.yml)
-[![](http://meritbadge.herokuapp.com/vega)](https://crates.io/crates/vega)
+[![Version](https://img.shields.io/crates/v/vega.svg)](https://crates.io/crates/vega)
 
 Licensed under the BSD 3-clause license.
 

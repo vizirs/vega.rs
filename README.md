@@ -1,6 +1,6 @@
 # vega
 
-[![Build Status](https://travis-ci.org/vizirs/vega.rs.svg?branch=master)](https://travis-ci.org/vizirs/vega.rs)
+[![Build Status](https://github.com/vizirs/vega.rs/actions/workflows/main.yml/badge.svg)](https://github.com/vizirs/vega.rs/actions/workflows/main.yml)
 [![](http://meritbadge.herokuapp.com/vega)](https://crates.io/crates/vega)
 
 Licensed under the BSD 3-clause license.

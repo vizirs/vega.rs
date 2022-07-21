@@ -11,357 +11,421 @@
 //     let model: [object Object] = serde_json::from_str(&json).unwrap();
 // }
 
-extern crate serde_json;
+extern crate serde_derive;
 use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Vega {
-    pub axes: Option<Vec<AxeElement>>,
-    pub data: Option<Vec<InputDataSetDefinition>>,
+    pub axes: Option<Vec<Axis>>,
+    pub data: Option<Vec<Data>>,
     pub encode: Option<VegaEncode>,
-    pub layout: Option<LayoutClass>,
-    pub legends: Option<Vec<LegendElement>>,
+    pub layout: Option<Layout>,
+    pub legends: Option<Vec<Legend>>,
     pub marks: Option<Vec<Mark>>,
-    pub projections: Option<Vec<ProjectionElement>>,
-    pub scales: Option<Vec<ScaleMapping>>,
-    pub signals: Option<Vec<SignalElement>>,
+    pub projections: Option<Vec<Projection>>,
+    pub scales: Option<Vec<Scale>>,
+    pub signals: Option<Vec<Signal>>,
     pub title: Option<Title>,
+    pub usermeta: Option<HashMap<String, Option<serde_json::Value>>>,
     #[serde(rename = "$schema")]
     pub schema: Option<String>,
     pub autosize: Option<Autosize>,
-    pub background: Option<String>,
+    pub background: Option<BackgroundElement>,
     pub config: Option<HashMap<String, Option<serde_json::Value>>>,
     pub description: Option<String>,
-    pub height: Option<f64>,
-    pub padding: Option<VegaPadding>,
-    pub usermeta: Option<HashMap<String, Option<serde_json::Value>>>,
-    pub width: Option<f64>,
+    pub height: Option<HeightElement>,
+    pub padding: Option<Padding>,
+    pub style: Option<Style>,
+    pub width: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AutosizeClass {
+pub struct AutosizeSignalRef {
     pub contains: Option<Contains>,
     pub resize: Option<bool>,
     #[serde(rename = "type")]
-    pub v4_type: AutosizeEnum,
+    pub signal_ref_type: Option<AutosizeEnum>,
+    pub signal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AxeElement {
+pub struct Axis {
+    pub aria: Option<bool>,
     #[serde(rename = "bandPosition")]
-    pub band_position: Box<Option<Box<ChiangMaiGoose>>>,
+    pub band_position: Box<Option<Box<AngleUnion>>>,
+    pub description: Option<String>,
     pub domain: Option<bool>,
+    #[serde(rename = "domainCap")]
+    pub domain_cap: Option<FontUnion>,
     #[serde(rename = "domainColor")]
-    pub domain_color: Option<ColorRef>,
+    pub domain_color: Option<ColorValue>,
+    #[serde(rename = "domainDash")]
+    pub domain_dash: Option<DomainDashUnion>,
+    #[serde(rename = "domainDashOffset")]
+    pub domain_dash_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "domainOpacity")]
-    pub domain_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub domain_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "domainWidth")]
-    pub domain_width: Box<Option<Box<ChiangMaiGoose>>>,
+    pub domain_width: Box<Option<Box<AngleUnion>>>,
     pub encode: Option<AxeEncode>,
-    pub format: Option<PurpleFormat>,
+    pub format: Option<AxeFormat>,
+    #[serde(rename = "formatType")]
+    pub format_type: Option<FormatTypeUnion>,
     pub grid: Option<bool>,
+    #[serde(rename = "gridCap")]
+    pub grid_cap: Option<FontUnion>,
     #[serde(rename = "gridColor")]
-    pub grid_color: Option<ColorRef>,
+    pub grid_color: Option<ColorValue>,
     #[serde(rename = "gridDash")]
-    pub grid_dash: Option<AxeGridDash>,
+    pub grid_dash: Option<DomainDashUnion>,
+    #[serde(rename = "gridDashOffset")]
+    pub grid_dash_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "gridOpacity")]
-    pub grid_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub grid_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "gridScale")]
     pub grid_scale: Option<String>,
     #[serde(rename = "gridWidth")]
-    pub grid_width: Box<Option<Box<ChiangMaiGoose>>>,
+    pub grid_width: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelAlign")]
-    pub label_align: Option<FluffyAlign>,
+    pub label_align: Option<AlignUnion>,
     #[serde(rename = "labelAngle")]
-    pub label_angle: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_angle: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelBaseline")]
-    pub label_baseline: Option<FluffyBaseline>,
+    pub label_baseline: Option<BaselineUnion>,
     #[serde(rename = "labelBound")]
     pub label_bound: Option<LabelBound>,
     #[serde(rename = "labelColor")]
-    pub label_color: Option<ColorRef>,
+    pub label_color: Option<ColorValue>,
     #[serde(rename = "labelFlush")]
     pub label_flush: Option<LabelBound>,
     #[serde(rename = "labelFlushOffset")]
-    pub label_flush_offset: Option<PortoCamel>,
+    pub label_flush_offset: Option<HeightElement>,
     #[serde(rename = "labelFont")]
-    pub label_font: Option<LabelFont>,
+    pub label_font: Option<FontUnion>,
     #[serde(rename = "labelFontSize")]
-    pub label_font_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_font_size: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "labelFontStyle")]
+    pub label_font_style: Option<FontUnion>,
     #[serde(rename = "labelFontWeight")]
-    pub label_font_weight: Option<FluffyFontWeight>,
+    pub label_font_weight: Option<FontWeightUnion>,
     #[serde(rename = "labelLimit")]
-    pub label_limit: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_limit: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "labelLineHeight")]
+    pub label_line_height: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "labelOffset")]
+    pub label_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelOpacity")]
-    pub label_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelOverlap")]
     pub label_overlap: Option<LabelOverlap>,
     #[serde(rename = "labelPadding")]
-    pub label_padding: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_padding: Box<Option<Box<AngleUnion>>>,
     pub labels: Option<bool>,
+    #[serde(rename = "labelSeparation")]
+    pub label_separation: Option<HeightElement>,
     #[serde(rename = "maxExtent")]
-    pub max_extent: Box<Option<Box<ChiangMaiGoose>>>,
+    pub max_extent: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "minExtent")]
-    pub min_extent: Box<Option<Box<ChiangMaiGoose>>>,
-    pub offset: Box<Option<Box<ChiangMaiGoose>>>,
+    pub min_extent: Box<Option<Box<AngleUnion>>>,
+    pub offset: Box<Option<Box<AngleUnion>>>,
     pub orient: AxeOrient,
-    pub position: Box<Option<Box<ChiangMaiGoose>>>,
+    pub position: Box<Option<Box<AngleUnion>>>,
     pub scale: String,
+    #[serde(rename = "tickBand")]
+    pub tick_band: Option<TickBand>,
+    #[serde(rename = "tickCap")]
+    pub tick_cap: Option<FontUnion>,
     #[serde(rename = "tickColor")]
-    pub tick_color: Option<ColorRef>,
+    pub tick_color: Option<ColorValue>,
     #[serde(rename = "tickCount")]
     pub tick_count: Option<TickCount>,
+    #[serde(rename = "tickDash")]
+    pub tick_dash: Option<DomainDashUnion>,
+    #[serde(rename = "tickDashOffset")]
+    pub tick_dash_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "tickExtra")]
-    pub tick_extra: Option<PurpleTartuGecko>,
+    pub tick_extra: Option<TickExtraUnion>,
+    #[serde(rename = "tickMinStep")]
+    pub tick_min_step: Option<HeightElement>,
     #[serde(rename = "tickOffset")]
-    pub tick_offset: Box<Option<Box<ChiangMaiGoose>>>,
+    pub tick_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "tickOpacity")]
-    pub tick_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub tick_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "tickRound")]
-    pub tick_round: Option<TickRound>,
+    pub tick_round: Option<TickRoundUnion>,
     pub ticks: Option<bool>,
     #[serde(rename = "tickSize")]
-    pub tick_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub tick_size: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "tickWidth")]
-    pub tick_width: Box<Option<Box<ChiangMaiGoose>>>,
-    pub title: Option<PurpleFormat>,
+    pub tick_width: Box<Option<Box<AngleUnion>>>,
+    pub title: Option<TextOrSignal>,
     #[serde(rename = "titleAlign")]
-    pub title_align: Option<FluffyAlign>,
+    pub title_align: Option<AlignUnion>,
+    #[serde(rename = "titleAnchor")]
+    pub title_anchor: Option<AnchorUnion>,
     #[serde(rename = "titleAngle")]
-    pub title_angle: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_angle: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "titleBaseline")]
-    pub title_baseline: Option<FluffyBaseline>,
+    pub title_baseline: Option<BaselineUnion>,
     #[serde(rename = "titleColor")]
-    pub title_color: Option<ColorRef>,
+    pub title_color: Option<ColorValue>,
     #[serde(rename = "titleFont")]
-    pub title_font: Option<LabelFont>,
+    pub title_font: Option<FontUnion>,
     #[serde(rename = "titleFontSize")]
-    pub title_font_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_font_size: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "titleFontStyle")]
+    pub title_font_style: Option<FontUnion>,
     #[serde(rename = "titleFontWeight")]
-    pub title_font_weight: Option<FluffyFontWeight>,
+    pub title_font_weight: Option<FontWeightUnion>,
     #[serde(rename = "titleLimit")]
-    pub title_limit: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_limit: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "titleLineHeight")]
+    pub title_line_height: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "titleOpacity")]
-    pub title_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "titlePadding")]
-    pub title_padding: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_padding: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "titleX")]
-    pub title_x: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_x: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "titleY")]
-    pub title_y: Box<Option<Box<ChiangMaiGoose>>>,
-    pub values: Option<Values>,
+    pub title_y: Box<Option<Box<AngleUnion>>>,
+    pub translate: Box<Option<Box<AngleUnion>>>,
+    pub values: Option<ArrayOrSignal>,
     pub zindex: Option<f64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct BarcelonaHawaiianMonkSeal {
+pub struct AngleClass {
     pub band: Option<Band>,
-    pub exponent: Box<Option<Box<ChiangMaiGoose>>>,
+    pub exponent: Box<Option<Box<AngleUnion>>>,
     pub extra: Option<bool>,
-    pub mult: Box<Option<Box<ChiangMaiGoose>>>,
-    pub offset: Box<Option<Box<ChiangMaiGoose>>>,
+    pub mult: Box<Option<Box<AngleUnion>>>,
+    pub offset: Box<Option<Box<AngleUnion>>>,
     pub round: Option<bool>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct BasseTerreElephant {
+pub struct AngleElement {
     pub test: Option<String>,
     pub band: Option<Band>,
-    pub exponent: Box<Option<Box<ChiangMaiGoose>>>,
+    pub exponent: Box<Option<Box<AngleUnion>>>,
     pub extra: Option<bool>,
-    pub mult: Box<Option<Box<ChiangMaiGoose>>>,
-    pub offset: Box<Option<Box<ChiangMaiGoose>>>,
+    pub mult: Box<Option<Box<AngleUnion>>>,
+    pub offset: Box<Option<Box<AngleUnion>>>,
     pub round: Option<bool>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct FieldRefSignalRef {
+pub struct PurpleSignalRef {
     pub signal: Option<String>,
-    pub datum: Box<Option<Box<FieldRef>>>,
-    pub group: Box<Option<Box<FieldRef>>>,
+    pub datum: Box<Option<Box<Field>>>,
+    pub group: Box<Option<Box<Field>>>,
     pub level: Option<f64>,
-    pub parent: Box<Option<Box<FieldRef>>>,
+    pub parent: Box<Option<Box<Field>>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct FluffySignalRef {
+pub struct FontElement {
     pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ColorClass {
-    pub scale: Box<Option<Box<FieldRef>>>,
+pub struct StringValue {
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
-    pub gradient: Box<Option<Box<FieldRef>>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct BaseColorValue {
+    pub test: Option<String>,
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
+    pub count: Option<f64>,
+    pub gradient: Box<Option<Box<Field>>>,
+    pub start: Option<Vec<f64>>,
+    pub stop: Option<Vec<f64>>,
     pub color: Option<Color>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Color {
-    pub b: Option<PurpleV4>,
-    pub g: Option<PurpleV4>,
-    pub r: Option<PurpleV4>,
-    pub h: Option<PurpleV4>,
-    pub l: Option<PurpleV4>,
-    pub s: Option<PurpleV4>,
-    pub a: Option<PurpleV4>,
-    pub c: Option<PurpleV4>,
+    pub b: Option<NumberValue>,
+    pub g: Option<NumberValue>,
+    pub r: Option<NumberValue>,
+    pub h: Option<NumberValue>,
+    pub l: Option<NumberValue>,
+    pub s: Option<NumberValue>,
+    pub a: Option<NumberValue>,
+    pub c: Option<NumberValue>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct PurpleBaseColorValue {
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
+    pub count: Option<f64>,
+    pub gradient: Box<Option<Box<Field>>>,
+    pub start: Option<Vec<f64>>,
+    pub stop: Option<Vec<f64>>,
+    pub color: Option<Color>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct DomainDashClass {
+    pub test: Option<String>,
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ArrayValue {
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AxeEncode {
-    pub axis: Option<Axis>,
-    pub domain: Option<Axis>,
-    pub grid: Option<Axis>,
-    pub labels: Option<Axis>,
-    pub ticks: Option<Axis>,
-    pub title: Option<Axis>,
+    pub axis: Option<GuideEncode>,
+    pub domain: Option<GuideEncode>,
+    pub grid: Option<GuideEncode>,
+    pub labels: Option<GuideEncode>,
+    pub ticks: Option<GuideEncode>,
+    pub title: Option<GuideEncode>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct Axis {
+pub struct GuideEncode {
     pub interactive: Option<bool>,
     pub name: Option<String>,
     pub style: Option<Style>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PurpleSignalRef {
+pub struct FluffySignalRef {
+    pub date: Option<String>,
+    pub day: Option<String>,
+    pub hours: Option<String>,
+    pub milliseconds: Option<String>,
+    pub minutes: Option<String>,
+    pub month: Option<String>,
+    pub quarter: Option<String>,
+    pub seconds: Option<String>,
+    pub week: Option<String>,
+    pub year: Option<String>,
+    pub signal: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct FormatTypeSignalRef {
     pub signal: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct TentacledSignalRef {
+pub struct AlignElement {
     pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct StickySignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
+pub struct AlignValue {
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct IndigoSignalRef {
+pub struct BaselineElement {
     pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct IndecentSignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
+pub struct BaselineValue {
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct HilariousSignalRef {
+pub struct FontWeightElement {
     pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AmbitiousSignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
+pub struct FontWeightValue {
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
-    pub range: Option<Band>,
-    pub band: Option<serde_json::Value>,
-    pub offset: Option<serde_json::Value>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct FontElement {
-    pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
-    pub signal: Option<String>,
-    pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
-    pub range: Option<Band>,
-    pub band: Option<serde_json::Value>,
-    pub offset: Option<serde_json::Value>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct CunningSignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
-    pub signal: Option<String>,
-    pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
-    pub range: Option<Band>,
-    pub band: Option<serde_json::Value>,
-    pub offset: Option<serde_json::Value>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct MagentaSignalRef {
-    pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
-    pub signal: Option<String>,
-    pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
-    pub range: Option<Band>,
-    pub band: Option<serde_json::Value>,
-    pub offset: Option<serde_json::Value>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct FriskySignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
-    pub signal: Option<String>,
-    pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
@@ -369,60 +433,91 @@ pub struct FriskySignalRef {
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TickCountSignalRef {
-    pub interval: Option<IntervalUnion>,
-    pub step: Option<PortoCamel>,
+    pub interval: Option<Interval>,
+    pub step: Option<HeightElement>,
     pub signal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TickRoundElement {
     pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct MischievousSignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
+pub struct BooleanValue {
+    pub scale: Box<Option<Box<Field>>>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
+    pub field: Box<Option<Box<Field>>>,
     pub range: Option<Band>,
     pub band: Option<serde_json::Value>,
     pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct InputDataSetDefinition {
+pub struct AnchorElement {
+    pub test: Option<String>,
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AnchorValue {
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Data {
     pub name: String,
-    pub on: Option<Vec<InputDataSetDefinitionOn>>,
-    pub transform: Option<Vec<InputDataSetDefinitionTransform>>,
+    pub on: Option<Vec<OnTrigger>>,
+    pub transform: Option<Vec<Transform>>,
     pub source: Option<Style>,
-    pub format: Option<FormatClass>,
-    pub values: Option<Vec<Option<serde_json::Value>>>,
-    pub url: Option<PurpleFormat>,
+    pub async: Option<TickExtraUnion>,
+    pub format: Option<SignalRef>,
+    pub url: Option<BackgroundElement>,
+    pub values: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct FormatClass {
-    pub copy: Option<bool>,
+pub struct SignalRef {
     pub parse: Option<ParseUnion>,
-    pub property: Option<String>,
     #[serde(rename = "type")]
-    pub signal_ref_type: Option<FormatType>,
+    pub signal_ref_type: Option<BackgroundElement>,
+    pub copy: Option<TickExtraUnion>,
+    pub property: Option<BackgroundElement>,
+    pub header: Option<Vec<String>>,
     pub delimiter: Option<String>,
-    pub feature: Option<String>,
-    pub mesh: Option<String>,
+    pub feature: Option<BackgroundElement>,
+    pub filter: Option<Filter>,
+    pub mesh: Option<BackgroundElement>,
     pub signal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct InputDataSetDefinitionOn {
+pub struct ParseSignalRef {
+    pub signal: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OnTrigger {
     pub insert: Option<String>,
     pub modify: Option<String>,
     pub remove: Option<Remove>,
@@ -432,179 +527,205 @@ pub struct InputDataSetDefinitionOn {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct InputDataSetDefinitionTransform {
-    #[serde(rename = "as")]
-    pub v4_as: Option<As>,
-    pub cross: Option<PurpleTartuGecko>,
-    pub drop: Option<PurpleTartuGecko>,
+pub struct Transform {
     pub fields: Option<FieldsUnion>,
-    pub groupby: Option<GroupbyUnion>,
-    pub key: Option<PurpleHammerfestPonies>,
-    pub ops: Option<Ops>,
+    pub query: Option<ArrayOrSignal>,
     pub signal: Option<String>,
     #[serde(rename = "type")]
-    pub v4_type: TransformType,
-    pub anchor: Option<PortoCamel>,
-    pub base: Option<PortoCamel>,
-    pub divide: Option<CenterUnion>,
-    pub extent: Option<Values>,
-    pub field: Option<PurpleHammerfestPonies>,
-    pub maxbins: Option<PortoCamel>,
-    pub minstep: Option<PortoCamel>,
-    pub name: Option<PurpleFormat>,
-    pub nice: Option<PurpleTartuGecko>,
-    pub step: Option<StepUnion>,
-    pub steps: Option<StepUnion>,
-    pub sort: Option<FluffyTartuGecko>,
-    pub case: Option<CaseUnion>,
-    pub pattern: Option<PurpleFormat>,
-    pub stopwords: Option<PurpleFormat>,
+    pub transform_type: TransformType,
     pub filter: Option<serde_json::Value>,
-    pub distribution: Option<Distribution>,
-    pub method: Option<PurpleFormat>,
-    pub expr: Option<String>,
-    pub initonly: Option<PurpleTartuGecko>,
-    pub keyvals: Option<Values>,
-    pub value: Option<serde_json::Value>,
-    #[serde(rename = "default")]
-    pub v4_default: Option<serde_json::Value>,
-    pub from: Option<String>,
-    pub values: Option<PurpleFields>,
-    pub limit: Option<PortoCamel>,
-    pub op: Option<TransformOp>,
-    pub size: Option<StepUnion>,
-    pub start: Option<PortoCamel>,
-    pub stop: Option<PortoCamel>,
-    pub frame: Option<ParamsUnion>,
-    #[serde(rename = "ignorePeers")]
-    pub ignore_peers: Option<PurpleTartuGecko>,
-    pub params: Option<ParamsUnion>,
-    pub orient: Option<OrientUnion>,
-    pub require: Option<PurpleSignalRef>,
+    pub ignore: Option<HeightElement>,
+    #[serde(rename = "as")]
+    pub transform_as: Option<AsUnion>,
+    pub orient: Option<TransformOrient>,
+    pub require: Option<FormatTypeSignalRef>,
     pub shape: Option<ShapeUnion>,
     #[serde(rename = "sourceX")]
-    pub source_x: Option<PurpleHammerfestPonies>,
+    pub source_x: Option<ColorUnion>,
     #[serde(rename = "sourceY")]
-    pub source_y: Option<PurpleHammerfestPonies>,
+    pub source_y: Option<ColorUnion>,
     #[serde(rename = "targetX")]
-    pub target_x: Option<PurpleHammerfestPonies>,
+    pub target_x: Option<ColorUnion>,
     #[serde(rename = "targetY")]
-    pub target_y: Option<PurpleHammerfestPonies>,
+    pub target_y: Option<ColorUnion>,
     #[serde(rename = "endAngle")]
-    pub end_angle: Option<PortoCamel>,
+    pub end_angle: Option<HeightElement>,
+    pub field: Option<ColorUnion>,
+    pub sort: Option<SortUnion>,
     #[serde(rename = "startAngle")]
-    pub start_angle: Option<PortoCamel>,
+    pub start_angle: Option<HeightElement>,
+    pub groupby: Option<GroupbyUnion>,
     pub offset: Option<TransformOffset>,
-    pub bandwidth: Option<PortoCamel>,
+    pub alpha: Option<HeightElement>,
+    #[serde(rename = "alphaMin")]
+    pub alpha_min: Option<HeightElement>,
+    #[serde(rename = "alphaTarget")]
+    pub alpha_target: Option<HeightElement>,
+    pub forces: Option<Vec<ForceElement>>,
+    pub iterations: Option<HeightElement>,
+    pub restart: Option<TickExtraUnion>,
+    #[serde(rename = "static")]
+    pub transform_static: Option<TickExtraUnion>,
+    #[serde(rename = "velocityDecay")]
+    pub velocity_decay: Option<HeightElement>,
+    pub bandwidth: Option<StepsUnion>,
     #[serde(rename = "cellSize")]
-    pub cell_size: Option<PortoCamel>,
-    pub count: Option<PortoCamel>,
-    pub smooth: Option<PurpleTartuGecko>,
+    pub cell_size: Option<HeightElement>,
+    pub count: Option<HeightElement>,
+    pub nice: Option<TickExtraUnion>,
+    pub size: Option<StepsUnion>,
+    pub smooth: Option<TickExtraUnion>,
     pub thresholds: Option<CenterUnion>,
-    pub weight: Option<PurpleHammerfestPonies>,
-    pub x: Option<PurpleHammerfestPonies>,
-    pub y: Option<PurpleHammerfestPonies>,
-    pub geojson: Option<PurpleHammerfestPonies>,
+    pub values: Option<ValuesUnion>,
+    pub weight: Option<ColorUnion>,
+    pub x: Option<ColorUnion>,
+    pub y: Option<ColorUnion>,
+    pub geojson: Option<ColorUnion>,
     #[serde(rename = "pointRadius")]
-    pub point_radius: Option<PointRadius>,
+    pub point_radius: Option<FontSizeUnion>,
     pub projection: Option<String>,
+    pub extent: Option<ArrayOrSignal>,
     #[serde(rename = "extentMajor")]
-    pub extent_major: Option<Values>,
+    pub extent_major: Option<ArrayOrSignal>,
     #[serde(rename = "extentMinor")]
-    pub extent_minor: Option<Values>,
-    pub precision: Option<PortoCamel>,
+    pub extent_minor: Option<ArrayOrSignal>,
+    pub precision: Option<HeightElement>,
+    pub step: Option<StepsUnion>,
     #[serde(rename = "stepMajor")]
     pub step_major: Option<CenterUnion>,
     #[serde(rename = "stepMinor")]
     pub step_minor: Option<CenterUnion>,
-    pub alpha: Option<PortoCamel>,
-    #[serde(rename = "alphaMin")]
-    pub alpha_min: Option<PortoCamel>,
-    #[serde(rename = "alphaTarget")]
-    pub alpha_target: Option<PortoCamel>,
-    pub forces: Option<Vec<ForceElement>>,
-    pub iterations: Option<PortoCamel>,
-    pub restart: Option<PurpleTartuGecko>,
-    #[serde(rename = "static")]
-    pub v4_static: Option<PurpleTartuGecko>,
-    #[serde(rename = "velocityDecay")]
-    pub velocity_decay: Option<PortoCamel>,
-    pub generate: Option<PurpleTartuGecko>,
+    pub color: Option<ColorUnion>,
+    pub opacity: Option<FontSizeUnion>,
+    pub resolve: Option<ResolveUnion>,
+    pub levels: Option<HeightElement>,
+    pub scale: Option<FontSizeUnion>,
+    pub translate: Option<Translate>,
+    pub zero: Option<TickExtraUnion>,
+    pub counts: Option<TickExtraUnion>,
+    pub generate: Option<TickExtraUnion>,
     pub keys: Option<GroupbyUnion>,
-    pub padding: Option<FluffyPuneHedgehog>,
-    pub radius: Option<PurpleHammerfestPonies>,
-    pub round: Option<PurpleTartuGecko>,
+    pub padding: Option<TransformPadding>,
+    pub radius: Option<ColorUnion>,
+    pub round: Option<TickExtraUnion>,
+    pub key: Option<ColorUnion>,
     #[serde(rename = "parentKey")]
-    pub parent_key: Option<PurpleHammerfestPonies>,
+    pub parent_key: Option<ColorUnion>,
+    pub method: Option<BackgroundElement>,
     #[serde(rename = "nodeSize")]
     pub node_size: Option<CenterUnion>,
-    pub separation: Option<PurpleTartuGecko>,
+    pub separation: Option<TickExtraUnion>,
     #[serde(rename = "paddingBottom")]
-    pub padding_bottom: Option<PortoCamel>,
+    pub padding_bottom: Option<HeightElement>,
     #[serde(rename = "paddingInner")]
-    pub padding_inner: Option<PortoCamel>,
+    pub padding_inner: Option<HeightElement>,
     #[serde(rename = "paddingLeft")]
-    pub padding_left: Option<PortoCamel>,
+    pub padding_left: Option<HeightElement>,
     #[serde(rename = "paddingOuter")]
-    pub padding_outer: Option<PortoCamel>,
+    pub padding_outer: Option<HeightElement>,
     #[serde(rename = "paddingRight")]
-    pub padding_right: Option<PortoCamel>,
+    pub padding_right: Option<HeightElement>,
     #[serde(rename = "paddingTop")]
-    pub padding_top: Option<PortoCamel>,
-    pub ratio: Option<PortoCamel>,
-    pub font: Option<PurpleHammerfestPonies>,
+    pub padding_top: Option<HeightElement>,
+    pub ratio: Option<HeightElement>,
+    pub anchor: Option<TransformAnchor>,
+    #[serde(rename = "avoidBaseMark")]
+    pub avoid_base_mark: Option<TickExtraUnion>,
+    #[serde(rename = "avoidMarks")]
+    pub avoid_marks: Option<AvoidMarks>,
+    #[serde(rename = "lineAnchor")]
+    pub line_anchor: Option<BackgroundElement>,
+    #[serde(rename = "markIndex")]
+    pub mark_index: Option<HeightElement>,
+    pub order: Option<HeightElement>,
+    pub params: Option<ParamsUnion>,
+    pub cross: Option<TickExtraUnion>,
+    pub drop: Option<TickExtraUnion>,
+    pub ops: Option<Ops>,
+    pub base: Option<HeightElement>,
+    pub divide: Option<CenterUnion>,
+    pub interval: Option<TickExtraUnion>,
+    pub maxbins: Option<HeightElement>,
+    pub minstep: Option<HeightElement>,
+    pub name: Option<BackgroundElement>,
+    pub span: Option<HeightElement>,
+    pub steps: Option<StepsUnion>,
+    pub case: Option<CaseUnion>,
+    pub pattern: Option<BackgroundElement>,
+    pub stopwords: Option<BackgroundElement>,
+    pub distribution: Option<Distribution>,
+    pub maxsteps: Option<HeightElement>,
+    pub minsteps: Option<HeightElement>,
+    pub expr: Option<String>,
+    pub index: Option<BackgroundElement>,
+    pub initonly: Option<TickExtraUnion>,
+    pub keyvals: Option<ArrayOrSignal>,
+    pub value: Option<serde_json::Value>,
+    pub cumulative: Option<TickExtraUnion>,
+    #[serde(rename = "default")]
+    pub transform_default: Option<serde_json::Value>,
+    pub from: Option<String>,
+    pub limit: Option<HeightElement>,
+    pub op: Option<TransformOp>,
+    pub probs: Option<CenterUnion>,
+    pub start: Option<HeightElement>,
+    pub stop: Option<HeightElement>,
+    pub timezone: Option<TimezoneUnion>,
+    pub units: Option<Units>,
+    pub frame: Option<Params>,
+    #[serde(rename = "ignorePeers")]
+    pub ignore_peers: Option<TickExtraUnion>,
+    pub font: Option<ColorUnion>,
     #[serde(rename = "fontSize")]
-    pub font_size: Option<PointRadius>,
+    pub font_size: Option<FontSizeUnion>,
     #[serde(rename = "fontSizeRange")]
     pub font_size_range: Option<CenterUnion>,
     #[serde(rename = "fontStyle")]
-    pub font_style: Option<PurpleHammerfestPonies>,
+    pub font_style: Option<ColorUnion>,
     #[serde(rename = "fontWeight")]
-    pub font_weight: Option<PurpleHammerfestPonies>,
-    pub rotate: Option<PointRadius>,
-    pub spiral: Option<PurpleFormat>,
-    pub text: Option<PurpleHammerfestPonies>,
-    pub query: Option<Values>,
-    pub ignore: Option<PortoCamel>,
+    pub font_weight: Option<ColorUnion>,
+    pub rotate: Option<FontSizeUnion>,
+    pub spiral: Option<BackgroundElement>,
+    pub text: Option<ColorUnion>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ColorSignalRef {
+    pub signal: Option<String>,
+    #[serde(rename = "as")]
+    pub signal_ref_as: Option<String>,
+    pub field: Option<String>,
+    pub expr: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Distribution {
     pub function: Function,
-    pub mean: Option<PortoCamel>,
-    pub stdev: Option<PortoCamel>,
-    pub max: Option<PortoCamel>,
-    pub min: Option<PortoCamel>,
-    pub bandwidth: Option<PortoCamel>,
-    pub field: Option<PurpleHammerfestPonies>,
+    pub mean: Option<HeightElement>,
+    pub stdev: Option<HeightElement>,
+    pub max: Option<HeightElement>,
+    pub min: Option<HeightElement>,
+    pub bandwidth: Option<HeightElement>,
+    pub field: Option<ColorUnion>,
     pub from: Option<String>,
-    pub distributions: Option<Values>,
+    pub distributions: Option<ArrayOrSignal>,
     pub weights: Option<CenterUnion>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PurpleRef {
+pub struct TentacledSignalRef {
     pub signal: Option<String>,
     #[serde(rename = "as")]
-    pub ref_as: Option<String>,
+    pub signal_ref_as: Option<String>,
     pub field: Option<String>,
     pub expr: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct FieldSignalRefClass {
+pub struct FontSizeSignalRef {
     pub signal: Option<String>,
     #[serde(rename = "as")]
-    pub ref_as: Option<String>,
-    pub field: Option<String>,
-    pub expr: Option<String>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct FluffyRef {
-    pub signal: Option<String>,
-    #[serde(rename = "as")]
-    pub ref_as: Option<String>,
+    pub signal_ref_as: Option<String>,
     pub expr: Option<String>,
     pub field: Option<String>,
 }
@@ -612,18 +733,18 @@ pub struct FluffyRef {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ForceElement {
     pub force: ForceEnum,
-    pub x: Option<TentacledPuneHedgehog>,
-    pub y: Option<TentacledPuneHedgehog>,
-    pub iterations: Option<PortoCamel>,
-    pub radius: Option<PointRadius>,
-    pub strength: Option<FluffyPuneHedgehog>,
+    pub x: Option<XUnion>,
+    pub y: Option<XUnion>,
+    pub iterations: Option<HeightElement>,
+    pub radius: Option<FontSizeUnion>,
+    pub strength: Option<StrengthUnion>,
     #[serde(rename = "distanceMax")]
-    pub distance_max: Option<PortoCamel>,
+    pub distance_max: Option<HeightElement>,
     #[serde(rename = "distanceMin")]
-    pub distance_min: Option<PortoCamel>,
-    pub theta: Option<PortoCamel>,
-    pub distance: Option<PointRadius>,
-    pub id: Option<PurpleHammerfestPonies>,
+    pub distance_min: Option<HeightElement>,
+    pub theta: Option<HeightElement>,
+    pub distance: Option<FontSizeUnion>,
+    pub id: Option<ColorUnion>,
     pub links: Option<String>,
 }
 
@@ -631,32 +752,49 @@ pub struct ForceElement {
 pub struct StrengthSignalRef {
     pub signal: Option<String>,
     #[serde(rename = "as")]
-    pub ref_as: Option<String>,
+    pub signal_ref_as: Option<String>,
     pub expr: Option<String>,
     pub field: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct XSignalRef {
+pub struct StickySignalRef {
     pub signal: Option<String>,
     #[serde(rename = "as")]
-    pub ref_as: Option<String>,
+    pub signal_ref_as: Option<String>,
     pub field: Option<String>,
     pub expr: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SortSignalRef {
-    pub field: Option<SortField>,
-    pub order: Option<SignalRefOrder>,
+pub struct PaddingExpr {
     pub signal: Option<String>,
+    #[serde(rename = "as")]
+    pub signal_ref_as: Option<String>,
+    pub expr: Option<String>,
+    pub field: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ValueSignalRef {
+pub struct CompareClass {
+    pub signal: Option<String>,
+    pub field: Option<CompareField>,
+    pub order: Option<OrderUnion>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct IndigoSignalRef {
     pub signal: Option<String>,
     #[serde(rename = "as")]
-    pub ref_as: Option<String>,
+    pub signal_ref_as: Option<String>,
+    pub expr: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct IndecentSignalRef {
+    pub signal: Option<String>,
+    #[serde(rename = "as")]
+    pub signal_ref_as: Option<String>,
     pub field: Option<String>,
     pub expr: Option<String>,
 }
@@ -666,225 +804,303 @@ pub struct VegaEncode {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct LayoutClass {
-    pub align: Option<AlignUnion>,
+pub struct Layout {
+    pub align: Option<LayoutAlign>,
     pub bounds: Option<BoundsUnion>,
     pub center: Option<Center>,
-    pub columns: Option<PortoCamel>,
+    pub columns: Option<HeightElement>,
     #[serde(rename = "footerBand")]
-    pub footer_band: Option<FooterBand>,
+    pub footer_band: Option<FooterBandUnion>,
     #[serde(rename = "headerBand")]
-    pub header_band: Option<HeaderBand>,
+    pub header_band: Option<HeaderBandUnion>,
     pub offset: Option<LayoutOffset>,
-    pub padding: Option<LayoutPadding>,
+    pub padding: Option<PaddingUnion>,
+    #[serde(rename = "titleAnchor")]
+    pub title_anchor: Option<TitleAnchor>,
     #[serde(rename = "titleBand")]
-    pub title_band: Option<TitleBand>,
+    pub title_band: Option<TitleBandUnion>,
     pub signal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AlignSignalRef {
+pub struct HilariousSignalRef {
     pub signal: Option<String>,
     pub column: Option<GridAlignUnion>,
     pub row: Option<GridAlignUnion>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct CenterSignalRef {
+pub struct AmbitiousSignalRef {
     pub signal: Option<String>,
-    pub column: Option<PurpleTartuGecko>,
-    pub row: Option<PurpleTartuGecko>,
+    pub column: Option<TickExtraUnion>,
+    pub row: Option<TickExtraUnion>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct FooterBandSignalRef {
     pub signal: Option<String>,
-    pub column: Option<PortoCamel>,
-    pub row: Option<PortoCamel>,
+    pub column: Option<HeightElement>,
+    pub row: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct HeaderBandSignalRef {
     pub signal: Option<String>,
-    pub column: Option<PortoCamel>,
-    pub row: Option<PortoCamel>,
+    pub column: Option<HeightElement>,
+    pub row: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct OffsetSignalRef {
+pub struct CunningSignalRef {
     pub signal: Option<String>,
     #[serde(rename = "columnFooter")]
-    pub column_footer: Option<PortoCamel>,
+    pub column_footer: Option<HeightElement>,
     #[serde(rename = "columnHeader")]
-    pub column_header: Option<PortoCamel>,
+    pub column_header: Option<HeightElement>,
     #[serde(rename = "columnTitle")]
-    pub column_title: Option<PortoCamel>,
+    pub column_title: Option<HeightElement>,
     #[serde(rename = "rowFooter")]
-    pub row_footer: Option<PortoCamel>,
+    pub row_footer: Option<HeightElement>,
     #[serde(rename = "rowHeader")]
-    pub row_header: Option<PortoCamel>,
+    pub row_header: Option<HeightElement>,
     #[serde(rename = "rowTitle")]
-    pub row_title: Option<PortoCamel>,
+    pub row_title: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PaddingSignalRef {
+pub struct MagentaSignalRef {
     pub signal: Option<String>,
-    pub column: Option<PortoCamel>,
-    pub row: Option<PortoCamel>,
+    pub column: Option<HeightElement>,
+    pub row: Option<HeightElement>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TitleAnchorSignalRef {
+    pub signal: Option<String>,
+    pub column: Option<PurpleColumn>,
+    pub row: Option<PurpleColumn>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TitleBandSignalRef {
     pub signal: Option<String>,
-    pub column: Option<PortoCamel>,
-    pub row: Option<PortoCamel>,
+    pub column: Option<HeightElement>,
+    pub row: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct LegendElement {
+pub struct Legend {
+    pub aria: Option<bool>,
     #[serde(rename = "clipHeight")]
-    pub clip_height: Option<PortoCamel>,
+    pub clip_height: Option<HeightElement>,
     #[serde(rename = "columnPadding")]
-    pub column_padding: Option<PortoCamel>,
-    pub columns: Option<PortoCamel>,
+    pub column_padding: Option<HeightElement>,
+    pub columns: Option<HeightElement>,
     #[serde(rename = "cornerRadius")]
-    pub corner_radius: Box<Option<Box<ChiangMaiGoose>>>,
+    pub corner_radius: Box<Option<Box<AngleUnion>>>,
+    pub description: Option<String>,
     pub direction: Option<Direction>,
     pub encode: Option<LegendEncode>,
     pub fill: Option<String>,
     #[serde(rename = "fillColor")]
-    pub fill_color: Option<ColorRef>,
-    pub format: Option<PurpleFormat>,
+    pub fill_color: Option<ColorValue>,
+    pub format: Option<LegendFormat>,
+    #[serde(rename = "formatType")]
+    pub format_type: Option<FormatTypeUnion>,
     #[serde(rename = "gradientLength")]
-    pub gradient_length: Option<PortoCamel>,
+    pub gradient_length: Option<HeightElement>,
     #[serde(rename = "gradientOpacity")]
-    pub gradient_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub gradient_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "gradientStrokeColor")]
-    pub gradient_stroke_color: Option<ColorRef>,
+    pub gradient_stroke_color: Option<ColorValue>,
     #[serde(rename = "gradientStrokeWidth")]
-    pub gradient_stroke_width: Box<Option<Box<ChiangMaiGoose>>>,
+    pub gradient_stroke_width: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "gradientThickness")]
-    pub gradient_thickness: Option<PortoCamel>,
+    pub gradient_thickness: Option<HeightElement>,
     #[serde(rename = "gridAlign")]
     pub grid_align: Option<GridAlignUnion>,
     #[serde(rename = "labelAlign")]
-    pub label_align: Option<FluffyAlign>,
+    pub label_align: Option<AlignUnion>,
     #[serde(rename = "labelBaseline")]
-    pub label_baseline: Option<FluffyBaseline>,
+    pub label_baseline: Option<BaselineUnion>,
     #[serde(rename = "labelColor")]
-    pub label_color: Option<ColorRef>,
+    pub label_color: Option<ColorValue>,
     #[serde(rename = "labelFont")]
-    pub label_font: Option<LabelFont>,
+    pub label_font: Option<FontUnion>,
     #[serde(rename = "labelFontSize")]
-    pub label_font_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_font_size: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "labelFontStyle")]
+    pub label_font_style: Option<FontUnion>,
     #[serde(rename = "labelFontWeight")]
-    pub label_font_weight: Option<FluffyFontWeight>,
+    pub label_font_weight: Option<FontWeightUnion>,
     #[serde(rename = "labelLimit")]
-    pub label_limit: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_limit: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelOffset")]
-    pub label_offset: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelOpacity")]
-    pub label_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub label_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "labelOverlap")]
     pub label_overlap: Option<LabelOverlap>,
-    pub offset: Box<Option<Box<ChiangMaiGoose>>>,
+    #[serde(rename = "labelSeparation")]
+    pub label_separation: Option<HeightElement>,
+    #[serde(rename = "legendX")]
+    pub legend_x: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "legendY")]
+    pub legend_y: Box<Option<Box<AngleUnion>>>,
+    pub offset: Box<Option<Box<AngleUnion>>>,
     pub opacity: Option<String>,
     pub orient: Option<LegendOrient>,
-    pub padding: Box<Option<Box<ChiangMaiGoose>>>,
+    pub padding: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "rowPadding")]
-    pub row_padding: Option<PortoCamel>,
+    pub row_padding: Option<HeightElement>,
     pub shape: Option<String>,
     pub size: Option<String>,
     pub stroke: Option<String>,
     #[serde(rename = "strokeColor")]
-    pub stroke_color: Option<ColorRef>,
+    pub stroke_color: Option<ColorValue>,
     #[serde(rename = "strokeDash")]
     pub stroke_dash: Option<String>,
     #[serde(rename = "strokeWidth")]
-    pub stroke_width: Box<Option<Box<ChiangMaiGoose>>>,
+    pub stroke_width: Option<String>,
+    #[serde(rename = "symbolDash")]
+    pub symbol_dash: Option<DomainDashUnion>,
+    #[serde(rename = "symbolDashOffset")]
+    pub symbol_dash_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "symbolFillColor")]
-    pub symbol_fill_color: Option<ColorRef>,
+    pub symbol_fill_color: Option<ColorValue>,
+    #[serde(rename = "symbolLimit")]
+    pub symbol_limit: Option<HeightElement>,
     #[serde(rename = "symbolOffset")]
-    pub symbol_offset: Box<Option<Box<ChiangMaiGoose>>>,
+    pub symbol_offset: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "symbolOpacity")]
-    pub symbol_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub symbol_opacity: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "symbolSize")]
-    pub symbol_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub symbol_size: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "symbolStrokeColor")]
-    pub symbol_stroke_color: Option<ColorRef>,
+    pub symbol_stroke_color: Option<ColorValue>,
     #[serde(rename = "symbolStrokeWidth")]
-    pub symbol_stroke_width: Box<Option<Box<ChiangMaiGoose>>>,
+    pub symbol_stroke_width: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "symbolType")]
-    pub symbol_type: Option<LabelFont>,
+    pub symbol_type: Option<FontUnion>,
     #[serde(rename = "tickCount")]
     pub tick_count: Option<TickCount>,
-    pub title: Option<PurpleFormat>,
+    #[serde(rename = "tickMinStep")]
+    pub tick_min_step: Option<HeightElement>,
+    pub title: Option<TextOrSignal>,
     #[serde(rename = "titleAlign")]
-    pub title_align: Option<FluffyAlign>,
+    pub title_align: Option<AlignUnion>,
+    #[serde(rename = "titleAnchor")]
+    pub title_anchor: Option<AnchorUnion>,
     #[serde(rename = "titleBaseline")]
-    pub title_baseline: Option<FluffyBaseline>,
+    pub title_baseline: Option<BaselineUnion>,
     #[serde(rename = "titleColor")]
-    pub title_color: Option<ColorRef>,
+    pub title_color: Option<ColorValue>,
     #[serde(rename = "titleFont")]
-    pub title_font: Option<LabelFont>,
+    pub title_font: Option<FontUnion>,
     #[serde(rename = "titleFontSize")]
-    pub title_font_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_font_size: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "titleFontStyle")]
+    pub title_font_style: Option<FontUnion>,
     #[serde(rename = "titleFontWeight")]
-    pub title_font_weight: Option<FluffyFontWeight>,
+    pub title_font_weight: Option<FontWeightUnion>,
     #[serde(rename = "titleLimit")]
-    pub title_limit: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_limit: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "titleLineHeight")]
+    pub title_line_height: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "titleOpacity")]
-    pub title_opacity: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_opacity: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "titleOrient")]
+    pub title_orient: Option<TitleOrientUnion>,
     #[serde(rename = "titlePadding")]
-    pub title_padding: Box<Option<Box<ChiangMaiGoose>>>,
+    pub title_padding: Box<Option<Box<AngleUnion>>>,
     #[serde(rename = "type")]
-    pub v4_type: Option<LegendType>,
-    pub values: Option<Values>,
+    pub legend_type: Option<LegendType>,
+    pub values: Option<ArrayOrSignal>,
     pub zindex: Option<f64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LegendEncode {
-    pub entries: Option<Axis>,
-    pub gradient: Option<Axis>,
-    pub labels: Option<Axis>,
-    pub legend: Option<Axis>,
-    pub symbols: Option<Axis>,
-    pub title: Option<Axis>,
+    pub entries: Option<GuideEncode>,
+    pub gradient: Option<GuideEncode>,
+    pub labels: Option<GuideEncode>,
+    pub legend: Option<GuideEncode>,
+    pub symbols: Option<GuideEncode>,
+    pub title: Option<GuideEncode>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct FriskySignalRef {
+    pub date: Option<String>,
+    pub day: Option<String>,
+    pub hours: Option<String>,
+    pub milliseconds: Option<String>,
+    pub minutes: Option<String>,
+    pub month: Option<String>,
+    pub quarter: Option<String>,
+    pub seconds: Option<String>,
+    pub week: Option<String>,
+    pub year: Option<String>,
+    pub signal: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct TitleOrientElement {
+    pub test: Option<String>,
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OrientValue {
+    pub scale: Box<Option<Box<Field>>>,
+    pub signal: Option<String>,
+    pub value: Option<serde_json::Value>,
+    pub field: Box<Option<Box<Field>>>,
+    pub range: Option<Band>,
+    pub band: Option<serde_json::Value>,
+    pub offset: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Mark {
+    pub from: Option<From>,
     #[serde(rename = "type")]
     pub mark_type: String,
-    pub clip: Option<Clip>,
+    pub aria: Option<bool>,
+    pub clip: Option<Markclip>,
+    pub description: Option<String>,
     pub encode: Option<VegaEncode>,
-    pub interactive: Option<PurpleTartuGecko>,
+    pub interactive: Option<TickExtraUnion>,
     pub key: Option<String>,
     pub name: Option<String>,
-    pub on: Option<Vec<MarkOn>>,
+    pub on: Option<Vec<OnMarkTrigger>>,
     pub role: Option<String>,
-    pub sort: Option<MarkSort>,
+    pub sort: Option<Compare>,
     pub style: Option<Style>,
-    pub transform: Option<Vec<MarkTransform>>,
-    pub axes: Option<Vec<AxeElement>>,
-    pub data: Option<Vec<InputDataSetDefinition>>,
-    pub layout: Option<LayoutClass>,
-    pub legends: Option<Vec<LegendElement>>,
+    pub transform: Option<Vec<TransformMark>>,
+    pub axes: Option<Vec<Axis>>,
+    pub data: Option<Vec<Data>>,
+    pub layout: Option<Layout>,
+    pub legends: Option<Vec<Legend>>,
     pub marks: Option<Vec<Mark>>,
-    pub projections: Option<Vec<ProjectionElement>>,
-    pub scales: Option<Vec<ScaleMapping>>,
-    pub signals: Option<Vec<SignalElement>>,
+    pub projections: Option<Vec<Projection>>,
+    pub scales: Option<Vec<Scale>>,
+    pub signals: Option<Vec<Signal>>,
     pub title: Option<Title>,
-    pub from: Option<From>,
+    pub usermeta: Option<HashMap<String, Option<serde_json::Value>>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ClipSignalRef {
+pub struct MarkclipSignalRef {
     pub signal: Option<String>,
-    pub path: Option<PurpleFormat>,
-    pub sphere: Option<PurpleFormat>,
+    pub path: Option<BackgroundElement>,
+    pub sphere: Option<BackgroundElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -912,17 +1128,17 @@ pub struct Aggregate {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct MarkOn {
+pub struct OnMarkTrigger {
     pub modify: Option<String>,
     pub trigger: String,
     pub values: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ProjectionElement {
+pub struct Projection {
     pub center: Option<CenterUnion>,
     #[serde(rename = "clipAngle")]
-    pub clip_angle: Option<PortoCamel>,
+    pub clip_angle: Option<HeightElement>,
     #[serde(rename = "clipExtent")]
     pub clip_extent: Option<Extent>,
     pub extent: Option<Extent>,
@@ -930,110 +1146,135 @@ pub struct ProjectionElement {
     pub name: String,
     pub parallels: Option<CenterUnion>,
     #[serde(rename = "pointRadius")]
-    pub point_radius: Option<PortoCamel>,
-    pub precision: Option<PortoCamel>,
+    pub point_radius: Option<HeightElement>,
+    pub precision: Option<HeightElement>,
     pub rotate: Option<CenterUnion>,
-    pub scale: Option<PortoCamel>,
+    pub scale: Option<HeightElement>,
     pub size: Option<CenterUnion>,
     pub translate: Option<CenterUnion>,
     #[serde(rename = "type")]
-    pub v4_type: Option<PurpleFormat>,
+    pub projection_type: Option<BackgroundElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct ScaleMapping {
-    pub domain: Option<ScaleMappingDomain>,
+pub struct Scale {
+    pub domain: Option<ScaleData>,
     #[serde(rename = "domainMax")]
-    pub domain_max: Option<PortoCamel>,
+    pub domain_max: Option<HeightElement>,
     #[serde(rename = "domainMid")]
-    pub domain_mid: Option<PortoCamel>,
+    pub domain_mid: Option<HeightElement>,
     #[serde(rename = "domainMin")]
-    pub domain_min: Option<PortoCamel>,
+    pub domain_min: Option<HeightElement>,
     #[serde(rename = "domainRaw")]
-    pub domain_raw: Option<Values>,
+    pub domain_raw: Option<ArrayOrSignal>,
     pub name: String,
-    pub reverse: Option<PurpleTartuGecko>,
-    pub round: Option<PurpleTartuGecko>,
+    pub nice: Option<PurpleBooleanOrSignal>,
+    pub reverse: Option<TickExtraUnion>,
+    pub round: Option<TickExtraUnion>,
     #[serde(rename = "type")]
-    pub scale_mapping_type: Option<ExpressionString>,
+    pub scale_type: Option<ScaleType>,
     #[serde(rename = "domainImplicit")]
-    pub domain_implicit: Option<PurpleTartuGecko>,
+    pub domain_implicit: Option<TickExtraUnion>,
+    pub interpolate: Option<ScaleInterpolate>,
     pub range: Option<RangeUnion>,
-    pub align: Option<PortoCamel>,
-    pub padding: Option<PortoCamel>,
+    pub align: Option<HeightElement>,
+    pub padding: Option<HeightElement>,
     #[serde(rename = "paddingInner")]
-    pub padding_inner: Option<PortoCamel>,
+    pub padding_inner: Option<HeightElement>,
     #[serde(rename = "paddingOuter")]
-    pub padding_outer: Option<PortoCamel>,
-    pub clamp: Option<PurpleTartuGecko>,
-    pub nice: Option<Nice>,
-    pub zero: Option<PurpleTartuGecko>,
-    pub interpolate: Option<Interpolate>,
-    pub base: Option<PortoCamel>,
-    pub exponent: Option<PortoCamel>,
+    pub padding_outer: Option<HeightElement>,
+    pub zero: Option<TickExtraUnion>,
+    pub bins: Option<ScaleBins>,
+    pub clamp: Option<TickExtraUnion>,
+    pub base: Option<HeightElement>,
+    pub exponent: Option<HeightElement>,
+    pub constant: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct DomainSignalRef {
+pub struct ScaleBinsSignalRef {
+    pub start: Option<HeightElement>,
+    pub step: Option<HeightElement>,
+    pub stop: Option<HeightElement>,
+    pub signal: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MischievousSignalRef {
     pub data: Option<String>,
-    pub field: Option<PurpleFormat>,
-    pub sort: Option<SortUnion>,
-    pub fields: Option<Vec<FluffyFormat>>,
+    pub field: Option<BackgroundElement>,
+    pub sort: Option<TentacledSort>,
+    pub fields: Option<Vec<PurpleStringOrSignal>>,
     pub signal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct FieldSignalRef {
+pub struct BraggadociousSignalRef {
     pub signal: Option<String>,
     pub data: Option<String>,
-    pub field: Option<PurpleFormat>,
+    pub field: Option<BackgroundElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SortSort {
-    pub field: Option<PurpleFormat>,
-    pub op: Option<PurpleFormat>,
-    pub order: Option<PurpleOrder>,
+pub struct PurpleSort {
+    pub field: Option<BackgroundElement>,
+    pub op: Option<BackgroundElement>,
+    pub order: Option<SortSortOrder>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct InterpolateSignalRef {
+pub struct ScaleInterpolateSignalRef {
     pub signal: Option<String>,
-    pub gamma: Option<PortoCamel>,
+    pub gamma: Option<HeightElement>,
     #[serde(rename = "type")]
-    pub signal_ref_type: Option<PurpleFormat>,
+    pub signal_ref_type: Option<BackgroundElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct NiceSignalRef {
-    pub interval: Option<IntervalUnion>,
-    pub step: Option<PortoCamel>,
+pub struct SignalRef1 {
     pub signal: Option<String>,
+    pub interval: Option<Interval>,
+    pub step: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct RangeSignalRef {
-    pub signal: Option<String>,
-    pub count: Option<PortoCamel>,
+pub struct SignalRef2 {
+    pub count: Option<HeightElement>,
     pub extent: Option<CenterUnion>,
-    pub scheme: Option<PurpleFormat>,
+    pub scheme: Option<Scheme>,
     pub data: Option<String>,
-    pub field: Option<PurpleFormat>,
-    pub sort: Option<SortUnion>,
-    pub fields: Option<Vec<FluffyFormat>>,
-    pub step: Option<PortoCamel>,
+    pub field: Option<BackgroundElement>,
+    pub sort: Option<StickySort>,
+    pub fields: Option<Vec<FluffyStringOrSignal>>,
+    pub signal: Option<String>,
+    pub step: Option<HeightElement>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SignalElement {
+pub struct SignalRef3 {
+    pub signal: Option<String>,
+    pub data: Option<String>,
+    pub field: Option<BackgroundElement>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct FluffySort {
+    pub field: Option<BackgroundElement>,
+    pub op: Option<BackgroundElement>,
+    pub order: Option<SortSortOrder>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Signal {
     pub description: Option<String>,
     pub name: String,
-    pub on: Option<Vec<SignalOn>>,
+    pub on: Option<Vec<OnEvent>>,
     pub push: Option<Push>,
     pub bind: Option<Bind>,
     pub react: Option<bool>,
     pub update: Option<String>,
     pub value: Option<serde_json::Value>,
+    pub init: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1042,25 +1283,61 @@ pub struct Bind {
     pub element: Option<String>,
     pub input: Option<serde_json::Value>,
     pub name: Option<String>,
+    pub labels: Option<Vec<String>>,
     pub options: Option<Vec<Option<serde_json::Value>>>,
     pub max: Option<f64>,
     pub min: Option<f64>,
     pub step: Option<f64>,
+    pub event: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct SignalOn {
-    pub events: Events,
+pub struct OnEvent {
+    pub events: EventsUnion,
     pub force: Option<bool>,
     pub encode: Option<String>,
     pub update: Option<Update>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct EventElement {
+pub struct Listener {
     pub signal: Option<String>,
     pub scale: Option<String>,
-    pub between: Option<Vec<InputEventStreamDefinition>>,
+    pub between: Option<Vec<Stream>>,
+    pub consume: Option<bool>,
+    pub debounce: Option<f64>,
+    pub filter: Option<Style>,
+    pub markname: Option<String>,
+    pub marktype: Option<String>,
+    pub throttle: Option<f64>,
+    pub source: Option<String>,
+    #[serde(rename = "type")]
+    pub listener_type: Option<String>,
+    pub stream: Box<Option<Stream>>,
+    pub merge: Option<Vec<Stream>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Stream {
+    pub between: Option<Vec<Stream>>,
+    pub consume: Option<bool>,
+    pub debounce: Option<f64>,
+    pub filter: Option<Style>,
+    pub markname: Option<String>,
+    pub marktype: Option<String>,
+    pub throttle: Option<f64>,
+    pub source: Option<String>,
+    #[serde(rename = "type")]
+    pub stream_type: Option<String>,
+    pub stream: Box<Option<Stream>>,
+    pub merge: Option<Vec<Stream>>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct StreamClass {
+    pub signal: Option<String>,
+    pub scale: Option<String>,
+    pub between: Option<Vec<Stream>>,
     pub consume: Option<bool>,
     pub debounce: Option<f64>,
     pub filter: Option<Style>,
@@ -1070,237 +1347,222 @@ pub struct EventElement {
     pub source: Option<String>,
     #[serde(rename = "type")]
     pub signal_ref_type: Option<String>,
-    pub stream: Box<Option<InputEventStreamDefinition>>,
-    pub merge: Option<Vec<InputEventStreamDefinition>>,
+    pub stream: Box<Option<Stream>>,
+    pub merge: Option<Vec<Stream>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct InputEventStreamDefinition {
-    pub between: Option<Vec<InputEventStreamDefinition>>,
-    pub consume: Option<bool>,
-    pub debounce: Option<f64>,
-    pub filter: Option<Style>,
-    pub markname: Option<String>,
-    pub marktype: Option<String>,
-    pub throttle: Option<f64>,
-    pub source: Option<String>,
-    #[serde(rename = "type")]
-    pub input_event_stream_definition_type: Option<String>,
-    pub stream: Box<Option<InputEventStreamDefinition>>,
-    pub merge: Option<Vec<InputEventStreamDefinition>>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct SignalRef {
-    pub signal: Option<String>,
-    pub scale: Option<String>,
-    pub between: Option<Vec<InputEventStreamDefinition>>,
-    pub consume: Option<bool>,
-    pub debounce: Option<f64>,
-    pub filter: Option<Style>,
-    pub markname: Option<String>,
-    pub marktype: Option<String>,
-    pub throttle: Option<f64>,
-    pub source: Option<String>,
-    #[serde(rename = "type")]
-    pub signal_ref_type: Option<String>,
-    pub stream: Box<Option<InputEventStreamDefinition>>,
-    pub merge: Option<Vec<InputEventStreamDefinition>>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct UpdateExpressionRef {
+pub struct Expr {
     #[serde(rename = "as")]
-    pub ref_as: Option<String>,
+    pub expr_as: Option<String>,
     pub expr: Option<String>,
     pub signal: Option<String>,
     pub value: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct MarkSort {
-    pub field: Option<SortField>,
-    pub order: Option<SignalRefOrder>,
+pub struct Compare {
+    pub field: Option<CompareField>,
+    pub order: Option<OrderUnion>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TitleClass {
-    pub align: Option<FluffyAlign>,
+    pub align: Option<AlignUnion>,
     pub anchor: Option<AnchorUnion>,
-    pub angle: Box<Option<Box<ChiangMaiGoose>>>,
-    pub baseline: Option<FluffyBaseline>,
-    pub color: Option<ColorRef>,
+    pub angle: Box<Option<Box<AngleUnion>>>,
+    pub aria: Option<bool>,
+    pub baseline: Option<BaselineUnion>,
+    pub color: Option<ColorValue>,
+    pub dx: Box<Option<Box<AngleUnion>>>,
+    pub dy: Box<Option<Box<AngleUnion>>>,
     pub encode: Option<TitleEncode>,
-    pub font: Option<LabelFont>,
+    pub font: Option<FontUnion>,
     #[serde(rename = "fontSize")]
-    pub font_size: Box<Option<Box<ChiangMaiGoose>>>,
+    pub font_size: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "fontStyle")]
+    pub font_style: Option<FontUnion>,
     #[serde(rename = "fontWeight")]
-    pub font_weight: Option<FluffyFontWeight>,
-    pub frame: Option<TitleFrame>,
+    pub font_weight: Option<FontWeightUnion>,
+    pub frame: Option<FrameUnion>,
     pub interactive: Option<bool>,
-    pub limit: Box<Option<Box<ChiangMaiGoose>>>,
+    pub limit: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "lineHeight")]
+    pub line_height: Box<Option<Box<AngleUnion>>>,
     pub name: Option<String>,
-    pub offset: Box<Option<Box<ChiangMaiGoose>>>,
-    pub orient: Option<LegendOrient>,
+    pub offset: Box<Option<Box<AngleUnion>>>,
+    pub orient: Option<TitleOrient>,
     pub style: Option<Style>,
-    pub text: TextElement,
+    pub subtitle: Option<TextOrSignal>,
+    #[serde(rename = "subtitleColor")]
+    pub subtitle_color: Option<ColorValue>,
+    #[serde(rename = "subtitleFont")]
+    pub subtitle_font: Option<FontUnion>,
+    #[serde(rename = "subtitleFontSize")]
+    pub subtitle_font_size: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "subtitleFontStyle")]
+    pub subtitle_font_style: Option<FontUnion>,
+    #[serde(rename = "subtitleFontWeight")]
+    pub subtitle_font_weight: Option<FontWeightUnion>,
+    #[serde(rename = "subtitleLineHeight")]
+    pub subtitle_line_height: Box<Option<Box<AngleUnion>>>,
+    #[serde(rename = "subtitlePadding")]
+    pub subtitle_padding: Option<HeightElement>,
+    pub text: Option<TextOrSignal>,
     pub zindex: Option<f64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct AnchorElement {
-    pub test: Option<String>,
-    pub scale: Box<Option<Box<FieldRef>>>,
-    pub signal: Option<String>,
-    pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
-    pub range: Option<Band>,
-    pub band: Option<serde_json::Value>,
-    pub offset: Option<serde_json::Value>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub struct BraggadociousSignalRef {
-    pub scale: Box<Option<Box<FieldRef>>>,
-    pub signal: Option<String>,
-    pub value: Option<serde_json::Value>,
-    pub field: Box<Option<Box<FieldRef>>>,
-    pub range: Option<Band>,
-    pub band: Option<serde_json::Value>,
-    pub offset: Option<serde_json::Value>,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
 pub struct TitleEncode {
+    pub group: Option<GuideEncode>,
+    pub subtitle: Option<GuideEncode>,
+    pub title: Option<GuideEncode>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct MarkTransform {
-    pub anchor: Option<PortoCamel>,
-    #[serde(rename = "as")]
-    pub v4_as: Option<As>,
-    pub base: Option<PortoCamel>,
-    pub divide: Option<CenterUnion>,
-    pub extent: Option<Values>,
-    pub field: Option<PurpleHammerfestPonies>,
-    pub maxbins: Option<PortoCamel>,
-    pub minstep: Option<PortoCamel>,
-    pub name: Option<PurpleFormat>,
-    pub nice: Option<PurpleTartuGecko>,
-    pub signal: Option<String>,
-    pub step: Option<PortoCamel>,
-    pub steps: Option<CenterUnion>,
-    #[serde(rename = "type")]
-    pub v4_type: TransformType,
-    pub sort: Option<FluffyTartuGecko>,
-    pub expr: Option<String>,
-    pub initonly: Option<PurpleTartuGecko>,
+pub struct TransformMark {
     pub fields: Option<FieldsUnion>,
-    pub groupby: Option<GroupbyUnion>,
-    pub key: Option<PurpleHammerfestPonies>,
-    pub ops: Option<Ops>,
-    #[serde(rename = "default")]
-    pub v4_default: Option<serde_json::Value>,
-    pub from: Option<String>,
-    pub values: Option<GroupbyUnion>,
-    pub size: Option<StepUnion>,
-    pub frame: Option<ParamsUnion>,
-    #[serde(rename = "ignorePeers")]
-    pub ignore_peers: Option<PurpleTartuGecko>,
-    pub params: Option<ParamsUnion>,
-    pub orient: Option<OrientUnion>,
-    pub require: Option<PurpleSignalRef>,
+    pub query: Option<ArrayOrSignal>,
+    pub signal: Option<String>,
+    #[serde(rename = "type")]
+    pub transform_mark_type: TransformMarkType,
+    pub filter: Option<serde_json::Value>,
+    pub ignore: Option<HeightElement>,
+    #[serde(rename = "as")]
+    pub transform_mark_as: Option<AsUnion>,
+    pub orient: Option<TransformOrient>,
+    pub require: Option<FormatTypeSignalRef>,
     pub shape: Option<ShapeUnion>,
     #[serde(rename = "sourceX")]
-    pub source_x: Option<PurpleHammerfestPonies>,
+    pub source_x: Option<ColorUnion>,
     #[serde(rename = "sourceY")]
-    pub source_y: Option<PurpleHammerfestPonies>,
+    pub source_y: Option<ColorUnion>,
     #[serde(rename = "targetX")]
-    pub target_x: Option<PurpleHammerfestPonies>,
+    pub target_x: Option<ColorUnion>,
     #[serde(rename = "targetY")]
-    pub target_y: Option<PurpleHammerfestPonies>,
+    pub target_y: Option<ColorUnion>,
     #[serde(rename = "endAngle")]
-    pub end_angle: Option<PortoCamel>,
+    pub end_angle: Option<HeightElement>,
+    pub field: Option<ColorUnion>,
+    pub sort: Option<SortUnion>,
     #[serde(rename = "startAngle")]
-    pub start_angle: Option<PortoCamel>,
+    pub start_angle: Option<HeightElement>,
+    pub groupby: Option<GroupbyUnion>,
     pub offset: Option<TransformOffset>,
-    pub geojson: Option<PurpleHammerfestPonies>,
-    #[serde(rename = "pointRadius")]
-    pub point_radius: Option<PointRadius>,
-    pub projection: Option<String>,
-    pub alpha: Option<PortoCamel>,
+    pub alpha: Option<HeightElement>,
     #[serde(rename = "alphaMin")]
-    pub alpha_min: Option<PortoCamel>,
+    pub alpha_min: Option<HeightElement>,
     #[serde(rename = "alphaTarget")]
-    pub alpha_target: Option<PortoCamel>,
+    pub alpha_target: Option<HeightElement>,
     pub forces: Option<Vec<ForceElement>>,
-    pub iterations: Option<PortoCamel>,
-    pub restart: Option<PurpleTartuGecko>,
+    pub iterations: Option<HeightElement>,
+    pub restart: Option<TickExtraUnion>,
     #[serde(rename = "static")]
-    pub v4_static: Option<PurpleTartuGecko>,
+    pub transform_mark_static: Option<TickExtraUnion>,
     #[serde(rename = "velocityDecay")]
-    pub velocity_decay: Option<PortoCamel>,
-    pub padding: Option<FluffyPuneHedgehog>,
-    pub radius: Option<PurpleHammerfestPonies>,
-    pub round: Option<PurpleTartuGecko>,
+    pub velocity_decay: Option<HeightElement>,
+    pub geojson: Option<ColorUnion>,
+    #[serde(rename = "pointRadius")]
+    pub point_radius: Option<FontSizeUnion>,
+    pub projection: Option<String>,
+    pub color: Option<ColorUnion>,
+    pub opacity: Option<FontSizeUnion>,
+    pub resolve: Option<ResolveUnion>,
+    pub padding: Option<TransformPadding>,
+    pub radius: Option<ColorUnion>,
+    pub size: Option<StepsUnion>,
+    pub round: Option<TickExtraUnion>,
+    pub key: Option<ColorUnion>,
     #[serde(rename = "parentKey")]
-    pub parent_key: Option<PurpleHammerfestPonies>,
-    pub method: Option<MethodUnion>,
+    pub parent_key: Option<ColorUnion>,
+    pub method: Option<BackgroundElement>,
     #[serde(rename = "nodeSize")]
     pub node_size: Option<CenterUnion>,
-    pub separation: Option<PurpleTartuGecko>,
+    pub separation: Option<TickExtraUnion>,
     #[serde(rename = "paddingBottom")]
-    pub padding_bottom: Option<PortoCamel>,
+    pub padding_bottom: Option<HeightElement>,
     #[serde(rename = "paddingInner")]
-    pub padding_inner: Option<PortoCamel>,
+    pub padding_inner: Option<HeightElement>,
     #[serde(rename = "paddingLeft")]
-    pub padding_left: Option<PortoCamel>,
+    pub padding_left: Option<HeightElement>,
     #[serde(rename = "paddingOuter")]
-    pub padding_outer: Option<PortoCamel>,
+    pub padding_outer: Option<HeightElement>,
     #[serde(rename = "paddingRight")]
-    pub padding_right: Option<PortoCamel>,
+    pub padding_right: Option<HeightElement>,
     #[serde(rename = "paddingTop")]
-    pub padding_top: Option<PortoCamel>,
-    pub ratio: Option<PortoCamel>,
-    pub x: Option<PurpleHammerfestPonies>,
-    pub y: Option<PurpleHammerfestPonies>,
-    pub font: Option<PurpleHammerfestPonies>,
+    pub padding_top: Option<HeightElement>,
+    pub ratio: Option<HeightElement>,
+    pub anchor: Option<TransformAnchor>,
+    #[serde(rename = "avoidBaseMark")]
+    pub avoid_base_mark: Option<TickExtraUnion>,
+    #[serde(rename = "avoidMarks")]
+    pub avoid_marks: Option<AvoidMarks>,
+    #[serde(rename = "lineAnchor")]
+    pub line_anchor: Option<BackgroundElement>,
+    #[serde(rename = "markIndex")]
+    pub mark_index: Option<HeightElement>,
+    pub base: Option<HeightElement>,
+    pub divide: Option<CenterUnion>,
+    pub extent: Option<ArrayOrSignal>,
+    pub interval: Option<TickExtraUnion>,
+    pub maxbins: Option<HeightElement>,
+    pub minstep: Option<HeightElement>,
+    pub name: Option<BackgroundElement>,
+    pub nice: Option<TickExtraUnion>,
+    pub span: Option<HeightElement>,
+    pub step: Option<HeightElement>,
+    pub steps: Option<CenterUnion>,
+    pub smooth: Option<TickExtraUnion>,
+    pub expr: Option<String>,
+    pub initonly: Option<TickExtraUnion>,
+    pub ops: Option<Ops>,
+    #[serde(rename = "default")]
+    pub transform_mark_default: Option<serde_json::Value>,
+    pub from: Option<String>,
+    pub values: Option<GroupbyUnion>,
+    pub timezone: Option<TimezoneUnion>,
+    pub units: Option<Units>,
+    pub frame: Option<Params>,
+    #[serde(rename = "ignorePeers")]
+    pub ignore_peers: Option<TickExtraUnion>,
+    pub params: Option<Params>,
+    pub x: Option<ColorUnion>,
+    pub y: Option<ColorUnion>,
+    pub font: Option<ColorUnion>,
     #[serde(rename = "fontSize")]
-    pub font_size: Option<PointRadius>,
+    pub font_size: Option<FontSizeUnion>,
     #[serde(rename = "fontSizeRange")]
     pub font_size_range: Option<CenterUnion>,
     #[serde(rename = "fontStyle")]
-    pub font_style: Option<PurpleHammerfestPonies>,
+    pub font_style: Option<ColorUnion>,
     #[serde(rename = "fontWeight")]
-    pub font_weight: Option<PurpleHammerfestPonies>,
-    pub rotate: Option<PointRadius>,
-    pub spiral: Option<PurpleFormat>,
-    pub text: Option<PurpleHammerfestPonies>,
-    pub query: Option<Values>,
-    pub filter: Option<serde_json::Value>,
-    pub ignore: Option<PortoCamel>,
+    pub font_weight: Option<ColorUnion>,
+    pub rotate: Option<FontSizeUnion>,
+    pub spiral: Option<BackgroundElement>,
+    pub text: Option<ColorUnion>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub struct PaddingClass {
+pub struct SignalRef4 {
     pub bottom: Option<f64>,
     pub left: Option<f64>,
     pub right: Option<f64>,
     pub top: Option<f64>,
+    pub signal: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Autosize {
-    AutosizeClass(AutosizeClass),
+    AutosizeSignalRef(AutosizeSignalRef),
     Enum(AutosizeEnum),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ChiangMaiGoose {
-    BarcelonaHawaiianMonkSeal(BarcelonaHawaiianMonkSeal),
-    BasseTerreElephantArray(Vec<BasseTerreElephant>),
+pub enum AngleUnion {
+    AngleClass(AngleClass),
+    AngleElementArray(Vec<AngleElement>),
     Double(f64),
 }
 
@@ -1313,24 +1575,46 @@ pub enum Band {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FieldRef {
-    FieldRefSignalRef(FieldRefSignalRef),
+pub enum Field {
+    PurpleSignalRef(PurpleSignalRef),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ColorRef {
-    ColorClass(ColorClass),
-    FluffySignalRefArray(Vec<FluffySignalRef>),
+pub enum FontUnion {
+    FontElementArray(Vec<FontElement>),
+    String(String),
+    StringValue(StringValue),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ColorValue {
+    BaseColorValueArray(Vec<BaseColorValue>),
+    PurpleBaseColorValue(PurpleBaseColorValue),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PurpleV4 {
-    BarcelonaHawaiianMonkSeal(BarcelonaHawaiianMonkSeal),
-    BasseTerreElephantArray(Vec<BasseTerreElephant>),
+pub enum NumberValue {
+    AngleClass(AngleClass),
+    AngleElementArray(Vec<AngleElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DomainDashUnion {
+    ArrayValue(ArrayValue),
+    UnionArray(Vec<Dash>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Dash {
+    DomainDashClass(DomainDashClass),
+    Double(f64),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1342,39 +1626,32 @@ pub enum Style {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PurpleFormat {
-    PurpleSignalRef(PurpleSignalRef),
+pub enum AxeFormat {
+    FluffySignalRef(FluffySignalRef),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AxeGridDash {
-    StickySignalRef(StickySignalRef),
-    UnionArray(Vec<GridDashElement>),
+pub enum FormatTypeUnion {
+    Enum(FormatTypeEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GridDashElement {
-    Double(f64),
-    TentacledSignalRef(TentacledSignalRef),
+pub enum AlignUnion {
+    AlignElementArray(Vec<AlignElement>),
+    AlignValue(AlignValue),
+    Enum(AlignEnum),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FluffyAlign {
-    Enum(PurpleAlign),
-    IndecentSignalRef(IndecentSignalRef),
-    IndigoSignalRefArray(Vec<IndigoSignalRef>),
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FluffyBaseline {
-    AmbitiousSignalRef(AmbitiousSignalRef),
-    Enum(PurpleBaseline),
-    HilariousSignalRefArray(Vec<HilariousSignalRef>),
+pub enum BaselineUnion {
+    BaselineElementArray(Vec<BaselineElement>),
+    BaselineValue(BaselineValue),
+    Enum(Baseline),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1382,31 +1659,23 @@ pub enum FluffyBaseline {
 pub enum LabelBound {
     Bool(bool),
     Double(f64),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PortoCamel {
+pub enum HeightElement {
     Double(f64),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum LabelFont {
-    CunningSignalRef(CunningSignalRef),
-    FontElementArray(Vec<FontElement>),
-    String(String),
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FluffyFontWeight {
+pub enum FontWeightUnion {
     Double(f64),
-    Enum(PurpleFontWeight),
-    FriskySignalRef(FriskySignalRef),
-    MagentaSignalRefArray(Vec<MagentaSignalRef>),
+    Enum(FontWeight),
+    FontWeightElementArray(Vec<FontWeightElement>),
+    FontWeightValue(FontWeightValue),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1414,51 +1683,88 @@ pub enum FluffyFontWeight {
 pub enum LabelOverlap {
     Bool(bool),
     Enum(LabelOverlapEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AxeOrient {
+    Enum(TitleOrientEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TickBand {
+    Enum(TickBandEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TickCount {
     Double(f64),
-    Enum(PurpleInterval),
+    Enum(TickCountEnum),
     TickCountSignalRef(TickCountSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum IntervalUnion {
-    Enum(PurpleInterval),
-    PurpleSignalRef(PurpleSignalRef),
+pub enum Interval {
+    Enum(TickCountEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PurpleTartuGecko {
+pub enum TickExtraUnion {
     Bool(bool),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum TickRound {
+pub enum TickRoundUnion {
     Bool(bool),
-    MischievousSignalRef(MischievousSignalRef),
+    BooleanValue(BooleanValue),
     TickRoundElementArray(Vec<TickRoundElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Values {
+pub enum TextOrSignal {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    String(String),
+    StringArray(Vec<String>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AnchorUnion {
+    AnchorElementArray(Vec<AnchorElement>),
+    AnchorValue(AnchorValue),
+    Enum(Anchor),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ArrayOrSignal {
     AnythingArray(Vec<Option<serde_json::Value>>),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum BackgroundElement {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ParseUnion {
     Enum(ParseEnum),
-    StringMap(HashMap<String, String>),
+    ParseSignalRef(ParseSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1470,86 +1776,116 @@ pub enum Remove {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum CaseUnion {
-    Enum(CaseEnum),
-    PurpleSignalRef(PurpleSignalRef),
+pub enum TransformAnchor {
+    Double(f64),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<SchemeElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PurpleHammerfestPonies {
-    PurpleRef(PurpleRef),
+pub enum SchemeElement {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    String(String),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AvoidMarks {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    StringArray(Vec<String>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum StepsUnion {
+    Double(f64),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<CenterElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CenterElement {
+    Double(f64),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CaseUnion {
+    Enum(CaseEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ColorUnion {
+    ColorSignalRef(ColorSignalRef),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CenterUnion {
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<PurplePuneHedgehog>),
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum PurplePuneHedgehog {
-    Double(f64),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<CenterElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FieldsUnion {
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<Option<FluffyHammerfestPonies>>),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<Option<FieldsField>>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FluffyHammerfestPonies {
-    FieldSignalRefClass(FieldSignalRefClass),
+pub enum FieldsField {
     String(String),
+    TentacledSignalRef(TentacledSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PointRadius {
+pub enum FontSizeUnion {
     Double(f64),
-    FluffyRef(FluffyRef),
+    FontSizeSignalRef(FontSizeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FluffyPuneHedgehog {
+pub enum StrengthUnion {
     Double(f64),
     StrengthSignalRef(StrengthSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum TentacledPuneHedgehog {
+pub enum XUnion {
     Double(f64),
+    StickySignalRef(StickySignalRef),
     String(String),
-    XSignalRef(XSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ParamsUnion {
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<Option<PortoCamel>>),
+pub enum Params {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<Option<HeightElement>>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GroupbyUnion {
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<TentacledHammerfestPonies>),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<GroupbyElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum TentacledHammerfestPonies {
-    PurpleRef(PurpleRef),
+pub enum GroupbyElement {
+    ColorSignalRef(ColorSignalRef),
     String(String),
 }
 
@@ -1557,20 +1893,21 @@ pub enum TentacledHammerfestPonies {
 #[serde(untagged)]
 pub enum TransformOffset {
     Enum(OffsetEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<CenterElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TransformOp {
     Enum(PurpleOp),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Ops {
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
     UnionArray(Vec<OpElement>),
 }
 
@@ -1578,129 +1915,178 @@ pub enum Ops {
 #[serde(untagged)]
 pub enum OpElement {
     Enum(FluffyOp),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OrientUnion {
-    Enum(Direction),
-    PurpleSignalRef(PurpleSignalRef),
+pub enum TransformOrient {
+    Enum(PurpleOrient),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TransformPadding {
+    Double(f64),
+    PaddingExpr(PaddingExpr),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ParamsUnion {
+    Bool(bool),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<Option<HeightElement>>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ResolveUnion {
+    Enum(ResolveEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ShapeUnion {
     Enum(ShapeEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum StepUnion {
-    Double(f64),
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<PurplePuneHedgehog>),
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FluffyTartuGecko {
+pub enum SortUnion {
     Bool(bool),
-    SortSignalRef(SortSignalRef),
+    CompareClass(CompareClass),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum SortField {
-    PurpleSignalRef(PurpleSignalRef),
+pub enum CompareField {
+    IndigoSignalRef(IndigoSignalRef),
     String(String),
-    UnionArray(Vec<TextElement>),
+    UnionArray(Vec<FieldField>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum TextElement {
-    PurpleSignalRef(PurpleSignalRef),
+pub enum FieldField {
+    IndigoSignalRef(IndigoSignalRef),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum SignalRefOrder {
+pub enum OrderUnion {
     Enum(OrderEnum),
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<OrderElement>),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<SortOrderElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum OrderElement {
+pub enum SortOrderElement {
     Enum(OrderEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum As {
-    PurpleSignalRef(PurpleSignalRef),
+pub enum TimezoneUnion {
+    Enum(TimezoneEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AsUnion {
+    FormatTypeSignalRef(FormatTypeSignalRef),
     String(String),
-    UnionArray(Vec<Option<PurpleFormat>>),
+    UnionArray(Vec<Option<BackgroundElement>>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PurpleFields {
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<StickyHammerfestPonies>),
+pub enum Translate {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<TranslateElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum StickyHammerfestPonies {
+pub enum TranslateElement {
     Double(f64),
-    String(String),
-    ValueSignalRef(ValueSignalRef),
+    FontSizeSignalRef(FontSizeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AlignUnion {
-    AlignSignalRef(AlignSignalRef),
-    Enum(AlignEnum),
+pub enum Units {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<UnitElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UnitElement {
+    Enum(UnitEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ValuesUnion {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<ValueElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum ValueElement {
+    Double(f64),
+    IndecentSignalRef(IndecentSignalRef),
+    String(String),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LayoutAlign {
+    Enum(GridAlignEnum),
+    HilariousSignalRef(HilariousSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GridAlignUnion {
-    Enum(AlignEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    Enum(GridAlignEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BoundsUnion {
     Enum(BoundsEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Center {
+    AmbitiousSignalRef(AmbitiousSignalRef),
     Bool(bool),
-    CenterSignalRef(CenterSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FooterBand {
+pub enum FooterBandUnion {
     Double(f64),
     FooterBandSignalRef(FooterBandSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum HeaderBand {
+pub enum HeaderBandUnion {
     Double(f64),
     HeaderBandSignalRef(HeaderBandSignalRef),
 }
@@ -1708,43 +2094,79 @@ pub enum HeaderBand {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LayoutOffset {
+    CunningSignalRef(CunningSignalRef),
     Double(f64),
-    OffsetSignalRef(OffsetSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum LayoutPadding {
+pub enum PaddingUnion {
     Double(f64),
-    PaddingSignalRef(PaddingSignalRef),
+    MagentaSignalRef(MagentaSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum TitleBand {
+pub enum TitleAnchor {
+    Enum(TitleAnchorEnum),
+    TitleAnchorSignalRef(TitleAnchorSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PurpleColumn {
+    Enum(TitleAnchorEnum),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TitleBandUnion {
     Double(f64),
     TitleBandSignalRef(TitleBandSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Clip {
+pub enum LegendFormat {
+    FriskySignalRef(FriskySignalRef),
+    String(String),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LegendOrient {
+    Enum(FluffyOrient),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum TitleOrientUnion {
+    Enum(TitleOrientEnum),
+    OrientValue(OrientValue),
+    TitleOrientElementArray(Vec<TitleOrientElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Markclip {
     Bool(bool),
-    ClipSignalRef(ClipSignalRef),
+    MarkclipSignalRef(MarkclipSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Extent {
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
     UnionArray(Vec<ClipExtentElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ClipExtentElement {
-    PurpleSignalRef(PurpleSignalRef),
-    UnionArray(Vec<PurplePuneHedgehog>),
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    UnionArray(Vec<CenterElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1756,31 +2178,39 @@ pub enum Fit {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum ScaleMappingDomain {
-    DomainSignalRef(DomainSignalRef),
-    UnionArray(Vec<Option<DomainElement>>),
+pub enum ScaleBins {
+    ScaleBinsSignalRef(ScaleBinsSignalRef),
+    UnionArray(Vec<CenterElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DomainElement {
+pub enum ScaleData {
+    MischievousSignalRef(MischievousSignalRef),
+    UnionArray(Vec<Option<Domain>>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Domain {
     Bool(bool),
     Double(f64),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
     String(String),
+    UnionArray(Vec<CenterElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FluffyFormat {
-    FieldSignalRef(FieldSignalRef),
+pub enum PurpleStringOrSignal {
+    BraggadociousSignalRef(BraggadociousSignalRef),
     String(String),
-    UnionArray(Vec<Field>),
+    UnionArray(Vec<FieldElement>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Field {
+pub enum FieldElement {
     Bool(bool),
     Double(f64),
     String(String),
@@ -1788,55 +2218,78 @@ pub enum Field {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum SortUnion {
+pub enum TentacledSort {
     Bool(bool),
-    SortSort(SortSort),
+    PurpleSort(PurpleSort),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum PurpleOrder {
+pub enum SortSortOrder {
     Enum(OrderEnum),
-    PurpleSignalRef(PurpleSignalRef),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Interpolate {
-    InterpolateSignalRef(InterpolateSignalRef),
+pub enum ScaleInterpolate {
+    ScaleInterpolateSignalRef(ScaleInterpolateSignalRef),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Nice {
+pub enum PurpleBooleanOrSignal {
     Bool(bool),
     Double(f64),
-    Enum(PurpleInterval),
-    NiceSignalRef(NiceSignalRef),
+    Enum(TickCountEnum),
+    SignalRef1(SignalRef1),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RangeUnion {
     Enum(RangeEnum),
-    RangeSignalRef(RangeSignalRef),
-    UnionArray(Vec<Option<DomainElement>>),
+    SignalRef2(SignalRef2),
+    UnionArray(Vec<Option<Domain>>),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum Events {
-    EventElementArray(Vec<EventElement>),
-    SignalRef(SignalRef),
+pub enum FluffyStringOrSignal {
+    SignalRef3(SignalRef3),
+    String(String),
+    UnionArray(Vec<FieldElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Scheme {
+    FormatTypeSignalRef(FormatTypeSignalRef),
+    String(String),
+    UnionArray(Vec<SchemeElement>),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum StickySort {
+    Bool(bool),
+    FluffySort(FluffySort),
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum EventsUnion {
+    ListenerArray(Vec<Listener>),
+    StreamClass(StreamClass),
     String(String),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Update {
+    Expr(Expr),
     String(String),
-    UpdateExpressionRef(UpdateExpressionRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1848,32 +2301,24 @@ pub enum Title {
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum AnchorUnion {
-    AnchorElementArray(Vec<AnchorElement>),
-    BraggadociousSignalRef(BraggadociousSignalRef),
-    Enum(AnchorEnum),
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum TitleFrame {
-    CunningSignalRef(CunningSignalRef),
-    Enum(FrameEnum),
+pub enum FrameUnion {
+    Enum(Frame),
     FontElementArray(Vec<FontElement>),
+    StringValue(StringValue),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum MethodUnion {
-    Enum(MethodEnum),
-    PurpleSignalRef(PurpleSignalRef),
+pub enum TitleOrient {
+    Enum(TentacledOrient),
+    FormatTypeSignalRef(FormatTypeSignalRef),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum VegaPadding {
+pub enum Padding {
     Double(f64),
-    PaddingClass(PaddingClass),
+    SignalRef4(SignalRef4),
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -1899,7 +2344,17 @@ pub enum AutosizeEnum {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum PurpleAlign {
+pub enum FormatTypeEnum {
+    #[serde(rename = "number")]
+    Number,
+    #[serde(rename = "time")]
+    Time,
+    #[serde(rename = "utc")]
+    Utc,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum AlignEnum {
     #[serde(rename = "center")]
     Center,
     #[serde(rename = "left")]
@@ -1909,11 +2364,15 @@ pub enum PurpleAlign {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum PurpleBaseline {
+pub enum Baseline {
     #[serde(rename = "alphabetic")]
     Alphabetic,
     #[serde(rename = "bottom")]
     Bottom,
+    #[serde(rename = "line-bottom")]
+    LineBottom,
+    #[serde(rename = "line-top")]
+    LineTop,
     #[serde(rename = "middle")]
     Middle,
     #[serde(rename = "top")]
@@ -1921,7 +2380,7 @@ pub enum PurpleBaseline {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum PurpleFontWeight {
+pub enum FontWeight {
     #[serde(rename = "bold")]
     Bold,
     #[serde(rename = "bolder")]
@@ -1959,7 +2418,7 @@ pub enum LabelOverlapEnum {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum AxeOrient {
+pub enum TitleOrientEnum {
     #[serde(rename = "bottom")]
     Bottom,
     #[serde(rename = "left")]
@@ -1971,7 +2430,15 @@ pub enum AxeOrient {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum PurpleInterval {
+pub enum TickBandEnum {
+    #[serde(rename = "center")]
+    Center,
+    #[serde(rename = "extent")]
+    Extent,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum TickCountEnum {
     #[serde(rename = "day")]
     Day,
     #[serde(rename = "hour")]
@@ -1991,23 +2458,27 @@ pub enum PurpleInterval {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum ParseEnum {
-    #[serde(rename = "auto")]
-    Auto,
+pub enum Anchor {
+    #[serde(rename = "end")]
+    End,
+    #[serde(rename = "middle")]
+    Middle,
+    #[serde(rename = "start")]
+    Start,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum FormatType {
-    #[serde(rename = "csv")]
-    Csv,
-    #[serde(rename = "dsv")]
-    Dsv,
-    #[serde(rename = "json")]
-    Json,
-    #[serde(rename = "topojson")]
-    Topojson,
-    #[serde(rename = "tsv")]
-    Tsv,
+pub enum Filter {
+    #[serde(rename = "exterior")]
+    Exterior,
+    #[serde(rename = "interior")]
+    Interior,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum ParseEnum {
+    #[serde(rename = "auto")]
+    Auto,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2024,6 +2495,8 @@ pub enum CaseEnum {
 pub enum Function {
     #[serde(rename = "kde")]
     Kde,
+    #[serde(rename = "lognormal")]
+    Lognormal,
     #[serde(rename = "mixture")]
     Mixture,
     #[serde(rename = "normal")]
@@ -2086,6 +2559,8 @@ pub enum PurpleOp {
     Missing,
     #[serde(rename = "__count__")]
     OpCount,
+    #[serde(rename = "product")]
+    Product,
     #[serde(rename = "q1")]
     Q1,
     #[serde(rename = "q3")]
@@ -2146,6 +2621,8 @@ pub enum FluffyOp {
     Min,
     #[serde(rename = "missing")]
     Missing,
+    #[serde(rename = "next_value")]
+    NextValue,
     #[serde(rename = "nth_value")]
     NthValue,
     #[serde(rename = "ntile")]
@@ -2154,6 +2631,10 @@ pub enum FluffyOp {
     OpCount,
     #[serde(rename = "percent_rank")]
     PercentRank,
+    #[serde(rename = "prev_value")]
+    PrevValue,
+    #[serde(rename = "product")]
+    Product,
     #[serde(rename = "q1")]
     Q1,
     #[serde(rename = "q3")]
@@ -2181,13 +2662,21 @@ pub enum FluffyOp {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum Direction {
+pub enum PurpleOrient {
     #[serde(rename = "horizontal")]
     Horizontal,
     #[serde(rename = "radial")]
     Radial,
     #[serde(rename = "vertical")]
     Vertical,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum ResolveEnum {
+    #[serde(rename = "independent")]
+    Independent,
+    #[serde(rename = "shared")]
+    Shared,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2213,6 +2702,14 @@ pub enum OrderEnum {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub enum TimezoneEnum {
+    #[serde(rename = "local")]
+    Local,
+    #[serde(rename = "utc")]
+    Utc,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub enum TransformType {
     #[serde(rename = "aggregate")]
     Aggregate,
@@ -2230,6 +2727,8 @@ pub enum TransformType {
     Crossfilter,
     #[serde(rename = "density")]
     Density,
+    #[serde(rename = "dotbin")]
+    Dotbin,
     #[serde(rename = "extent")]
     Extent,
     #[serde(rename = "filter")]
@@ -2252,14 +2751,26 @@ pub enum TransformType {
     Geoshape,
     #[serde(rename = "graticule")]
     Graticule,
+    #[serde(rename = "heatmap")]
+    Heatmap,
     #[serde(rename = "identifier")]
     Identifier,
     #[serde(rename = "impute")]
     Impute,
+    #[serde(rename = "isocontour")]
+    Isocontour,
     #[serde(rename = "joinaggregate")]
     Joinaggregate,
+    #[serde(rename = "kde")]
+    Kde,
+    #[serde(rename = "kde2d")]
+    Kde2D,
+    #[serde(rename = "label")]
+    Label,
     #[serde(rename = "linkpath")]
     Linkpath,
+    #[serde(rename = "loess")]
+    Loess,
     #[serde(rename = "lookup")]
     Lookup,
     #[serde(rename = "nest")]
@@ -2274,6 +2785,10 @@ pub enum TransformType {
     Pivot,
     #[serde(rename = "project")]
     Project,
+    #[serde(rename = "quantile")]
+    Quantile,
+    #[serde(rename = "regression")]
+    Regression,
     #[serde(rename = "resolvefilter")]
     Resolvefilter,
     #[serde(rename = "sample")]
@@ -2284,6 +2799,8 @@ pub enum TransformType {
     Stack,
     #[serde(rename = "stratify")]
     Stratify,
+    #[serde(rename = "timeunit")]
+    Timeunit,
     #[serde(rename = "tree")]
     Tree,
     #[serde(rename = "treelinks")]
@@ -2299,7 +2816,33 @@ pub enum TransformType {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum AlignEnum {
+pub enum UnitEnum {
+    #[serde(rename = "date")]
+    Date,
+    #[serde(rename = "day")]
+    Day,
+    #[serde(rename = "dayofyear")]
+    Dayofyear,
+    #[serde(rename = "hours")]
+    Hours,
+    #[serde(rename = "milliseconds")]
+    Milliseconds,
+    #[serde(rename = "minutes")]
+    Minutes,
+    #[serde(rename = "month")]
+    Month,
+    #[serde(rename = "quarter")]
+    Quarter,
+    #[serde(rename = "seconds")]
+    Seconds,
+    #[serde(rename = "week")]
+    Week,
+    #[serde(rename = "year")]
+    Year,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum GridAlignEnum {
     #[serde(rename = "all")]
     All,
     #[serde(rename = "each")]
@@ -2317,7 +2860,31 @@ pub enum BoundsEnum {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum LegendOrient {
+pub enum TitleAnchorEnum {
+    #[serde(rename = "end")]
+    End,
+    #[serde(rename = "start")]
+    Start,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum Direction {
+    #[serde(rename = "horizontal")]
+    Horizontal,
+    #[serde(rename = "vertical")]
+    Vertical,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum LegendType {
+    #[serde(rename = "gradient")]
+    Gradient,
+    #[serde(rename = "symbol")]
+    Symbol,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum FluffyOrient {
     #[serde(rename = "bottom")]
     Bottom,
     #[serde(rename = "bottom-left")]
@@ -2336,14 +2903,6 @@ pub enum LegendOrient {
     TopLeft,
     #[serde(rename = "top-right")]
     TopRight,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub enum LegendType {
-    #[serde(rename = "gradient")]
-    Gradient,
-    #[serde(rename = "symbol")]
-    Symbol,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -2367,15 +2926,15 @@ pub enum RangeEnum {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum ExpressionString {
+pub enum ScaleType {
     #[serde(rename = "band")]
     Band,
-    #[serde(rename = "bin-linear")]
-    BinLinear,
     #[serde(rename = "bin-ordinal")]
     BinOrdinal,
     #[serde(rename = "identity")]
     Identity,
+    #[serde(rename = "linear")]
+    Linear,
     #[serde(rename = "log")]
     Log,
     #[serde(rename = "ordinal")]
@@ -2390,6 +2949,10 @@ pub enum ExpressionString {
     Quantize,
     #[serde(rename = "sequential")]
     Sequential,
+    #[serde(rename = "sqrt")]
+    Sqrt,
+    #[serde(rename = "symlog")]
+    Symlog,
     #[serde(rename = "threshold")]
     Threshold,
     #[serde(rename = "time")]
@@ -2405,17 +2968,7 @@ pub enum Push {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum AnchorEnum {
-    #[serde(rename = "end")]
-    End,
-    #[serde(rename = "middle")]
-    Middle,
-    #[serde(rename = "start")]
-    Start,
-}
-
-#[derive(Debug, Serialize, Deserialize)]
-pub enum FrameEnum {
+pub enum Frame {
     #[serde(rename = "bounds")]
     Bounds,
     #[serde(rename = "group")]
@@ -2423,21 +2976,79 @@ pub enum FrameEnum {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-pub enum MethodEnum {
-    #[serde(rename = "binary")]
-    Binary,
-    #[serde(rename = "cluster")]
-    Cluster,
-    #[serde(rename = "dice")]
-    Dice,
-    #[serde(rename = "resquarify")]
-    Resquarify,
-    #[serde(rename = "slice")]
-    Slice,
-    #[serde(rename = "slicedice")]
-    Slicedice,
-    #[serde(rename = "squarify")]
-    Squarify,
-    #[serde(rename = "tidy")]
-    Tidy,
+pub enum TentacledOrient {
+    #[serde(rename = "bottom")]
+    Bottom,
+    #[serde(rename = "left")]
+    Left,
+    #[serde(rename = "none")]
+    None,
+    #[serde(rename = "right")]
+    Right,
+    #[serde(rename = "top")]
+    Top,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub enum TransformMarkType {
+    #[serde(rename = "bin")]
+    Bin,
+    #[serde(rename = "collect")]
+    Collect,
+    #[serde(rename = "crossfilter")]
+    Crossfilter,
+    #[serde(rename = "dotbin")]
+    Dotbin,
+    #[serde(rename = "extent")]
+    Extent,
+    #[serde(rename = "force")]
+    Force,
+    #[serde(rename = "formula")]
+    Formula,
+    #[serde(rename = "geojson")]
+    Geojson,
+    #[serde(rename = "geopath")]
+    Geopath,
+    #[serde(rename = "geopoint")]
+    Geopoint,
+    #[serde(rename = "geoshape")]
+    Geoshape,
+    #[serde(rename = "heatmap")]
+    Heatmap,
+    #[serde(rename = "identifier")]
+    Identifier,
+    #[serde(rename = "joinaggregate")]
+    Joinaggregate,
+    #[serde(rename = "label")]
+    Label,
+    #[serde(rename = "linkpath")]
+    Linkpath,
+    #[serde(rename = "lookup")]
+    Lookup,
+    #[serde(rename = "pack")]
+    Pack,
+    #[serde(rename = "partition")]
+    Partition,
+    #[serde(rename = "pie")]
+    Pie,
+    #[serde(rename = "resolvefilter")]
+    Resolvefilter,
+    #[serde(rename = "sample")]
+    Sample,
+    #[serde(rename = "stack")]
+    Stack,
+    #[serde(rename = "stratify")]
+    Stratify,
+    #[serde(rename = "timeunit")]
+    Timeunit,
+    #[serde(rename = "tree")]
+    Tree,
+    #[serde(rename = "treemap")]
+    Treemap,
+    #[serde(rename = "voronoi")]
+    Voronoi,
+    #[serde(rename = "window")]
+    Window,
+    #[serde(rename = "wordcloud")]
+    Wordcloud,
 }
